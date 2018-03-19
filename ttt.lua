@@ -1,0 +1,1 @@
+echo 'export PATH=/root/nvm/versions/node/v4.8.4/bin/' >> /etc/profile

@@ -2,10 +2,11 @@ var chokidar = require('chokidar')
 
 var watcher = null
 var ready = false
-var ANDROIDFILESYS = "sdcard/Android/data/com.glee.tloh.testin/files/main/"
+var ANDROIDFILESYS = "sdcard/Android/data/com.kzgj.heroes.jiancn/files/main/"
 
 var createFunc = function (targetPath, callback) {
     var cmdStr = 'adb shell mkdir ' + targetPath
+    var exec = require('child_process').exec;
     exec(cmdStr, function (err, stdout, stderr) {
         if (err) {
             console.log('get weather api error:' + stderr);
@@ -43,7 +44,8 @@ var pushAndroidFiled = function (path) {
     var exec = require('child_process').exec;
     var cmdStr = 'adb shell ls ' + targetPath
     exec(cmdStr, function (err, stdout, stderr) {
-        if (stdout.indexOf("No such file or directory") >= 0) {
+        var commend = ("" + err)
+        if (commend.indexOf("No such file or directory") >= 0) {
             createFunc(targetPath, function () {
                 pushFunc(path, targetPath)
             })
@@ -91,7 +93,7 @@ var luawatch = function () {
 
     // 删除目录时
     function directoryRemovedListener(path) {
-        log.info('Directory', path, 'has been removed')
+        console.log('Directory', path, 'has been removed')
     }
 
     if (!watcher) {
@@ -104,7 +106,7 @@ var luawatch = function () {
         .on('unlink', fileRemovedListener)
         .on('unlinkDir', directoryRemovedListener)
         .on('error', function (error) {
-            log.info('Error happened', error);
+            console.log('Error happened', error);
         })
         .on('ready', function () {
             console.info('Initial scan complete. Ready for changes.');
